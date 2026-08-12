@@ -1,0 +1,139 @@
+{
+  "userTokens": {},
+  "autobetCfg": {
+    "8321379592": {
+      "watch": true,
+      "watchLoss": 1,
+      "baseBet": 1,
+      "maxLvl": 8,
+      "enabled": false
+    }
+  },
+  "profitTrack": {
+    "8321379592": {
+      "totalBets": 0,
+      "wins": 0,
+      "losses": 0,
+      "pnl": 0,
+      "winStreak": 0,
+      "lossStreak": 0,
+      "maxW": 0,
+      "maxL": 0
+    }
+  },
+  "GLOBAL_TOKEN": "",
+  "dangerPairs": {
+    "18": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786551763644
+    },
+    "28": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786551963295
+    },
+    "37": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786553942725
+    },
+    "38": {
+      "count": 3,
+      "skip": true,
+      "lastSeen": 1786553707895
+    },
+    "39": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786553882343
+    },
+    "51": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786551723967
+    },
+    "68": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786552024042
+    },
+    "73": {
+      "count": 3,
+      "skip": true,
+      "lastSeen": 1786553553882
+    },
+    "79": {
+      "count": 3,
+      "skip": true,
+      "lastSeen": 1786555209449
+    },
+    "81": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786552054897
+    },
+    "86": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786551993696
+    },
+    "93": {
+      "count": 2,
+      "skip": false,
+      "lastSeen": 1786555324323
+    },
+    "94": {
+      "count": 1,
+      "skip": false,
+      "lastSeen": 1786555109606
+    },
+    "07": {
+      "count": 3,
+      "skip": true,
+      "lastSeen": 1786553404046
+    }
+  },
+  "usersAccess": {
+    "1269728158": 1786725839085,
+    "6008508151": 1786725791638
+  },
+  "keyStore": {
+    "EARN WITH ME-44B11B-52A4": {
+      "days": 2,
+      "used": false,
+      "usedBy": null,
+      "by": 1865939951
+    },
+    "EARN WITH ME-607BAD-8CDE": {
+      "days": 2,
+      "used": false,
+      "usedBy": null,
+      "by": 1865939951
+    },
+    "EARN WITH ME-99CE45-DFB7": {
+      "days": 2,
+      "used": true,
+      "usedBy": 1269728158,
+      "by": 1865939951
+    },
+    "EARN WITH ME-87A336-FC3A": {
+      "days": 2,
+      "used": true,
+      "usedBy": 6008508151,
+      "by": 1865939951
+    }
+  },
+  "adminPasswords": {},
+  "stats": {
+    "8321379592": {
+      "total": 1,
+      "win": 1,
+      "loss": 0,
+      "lossStreak": 0,
+      "winStreak": 1,
+      "maxWinStreak": 0,
+      "maxLossStreak": 0
+    }
+  }
+}
