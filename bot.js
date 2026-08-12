@@ -221,10 +221,13 @@ async function fetchList() {
             },
             timeout: 10000
         });
-        if (response.data && response.data.data && response.data.data.list) {
-            return response.data.data.list;
+        const payload = typeof response.data === "string" ? JSON.parse(response.data) : response.data;
+        const list = payload?.data?.list || payload?.list || payload?.result?.list;
+        if (Array.isArray(list)) {
+            return list;
         }
-        return [];
+        console.error("[FETCH LIST ERROR] Unexpected response shape");
+        return null;
     } catch (error) {
         console.error("[FETCH LIST ERROR]", error.message);
         return null;
@@ -2043,8 +2046,9 @@ if(text==="🔢 Set Watch Losses"){
                 userStates[id].resultSizeHistory = loadedHistory;
                 userStates[id].resultHistory = loadedHistory;
                 await send(msg.chat.id, "📋 Loaded history: " + loadedHistory.join(''));
+            } else {
+                await send(msg.chat.id, "⚠️ History unavailable right now. Retrying from the live API...");
             }
-
             const cfg=autobetCfg[id];
             await send(msg.chat.id,
 "🚀 ENGINE ON!\n\nAutoBet: "+(cfg.enabled?"✅ ON":"❌ OFF")+"\nWatch  : "+(cfg.watch?"ON ("+cfg.watchLoss+"L)":"OFF")+"\nBase   : ₹"+cfg.baseBet+" | MaxLvl: "+cfg.maxLvl
