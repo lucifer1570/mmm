@@ -211,28 +211,36 @@ async function logBoth(chatId, msg, isError = false) {
 //  HELPERS
 // ============================================================
 async function fetchList() {
-    try {
-        const response = await axios.get(DRAW_URL, {
-            headers: {
-                "Accept": "application/json, text/plain, */*",
-                "Origin": "https://bdgwin901.com",
-                "Referer": "https://bdgwin901.com/",
-                "Ar-Origin": "https://bdgwin901.com",
-                "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36"
-            },
-            timeout: 10000
-        });
-        const payload = typeof response.data === "string" ? JSON.parse(response.data) : response.data;
-        const list = payload?.data?.list || payload?.list || payload?.result?.list;
-        if (Array.isArray(list)) {
-            return list;
+    const headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Origin": "https://bdgwin901.com",
+        "Referer": "https://bdgwin901.com/",
+        "Ar-Origin": "https://bdgwin901.com",
+        "Cache-Control": "no-cache",
+        "User-Agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36"
+    };
+    for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+            const response = await axios.get(DRAW_URL, {
+                headers,
+                params: { pageNo: 1, pageSize: 50, _t: Date.now() },
+                timeout: 10000,
+                validateStatus: () => true
+            });
+            if (response.status >= 200 && response.status < 300) {
+                const payload = typeof response.data === "string" ? JSON.parse(response.data) : response.data;
+                const list = payload?.data?.list || payload?.list || payload?.result?.list;
+                if (Array.isArray(list)) return list;
+                console.error("[FETCH LIST ERROR] Unexpected response shape");
+                return null;
+            }
+            console.error(`[FETCH LIST ERROR] HTTP ${response.status} (attempt ${attempt}/3)`);
+        } catch (error) {
+            console.error(`[FETCH LIST ERROR] ${error.message} (attempt ${attempt}/3)`);
         }
-        console.error("[FETCH LIST ERROR] Unexpected response shape");
-        return null;
-    } catch (error) {
-        console.error("[FETCH LIST ERROR]", error.message);
-        return null;
+        if (attempt < 3) await new Promise(resolve => setTimeout(resolve, attempt * 1500));
     }
+    return null;
 }
 // Helper parser function
 async function parseBalanceResponse(r) {
@@ -1729,6 +1737,12 @@ function startBot(){
     bot=new TelegramBot(BOT_TOKEN,{polling:{interval:1000,autoStart:true,params:{timeout:30}}});
     bot.on("polling_error",err=>{
         const msg = err?.message || String(err);
+        if (msg.includes("409 Conflict") || msg.includes("terminated by other getUpdates request")) {
+            console.error("[POLL] Telegram polling conflict. Stopping this instance so the host can restart one clean poller.");
+            bot.stopPolling().catch(() => {});
+            setTimeout(() => process.exit(1), 1000);
+            return;
+        }
         if (msg.includes("ECONNRESET") || msg.includes("EFATAL") || msg.includes("socket hang up")) {
             recoverPolling(err);
             return;
