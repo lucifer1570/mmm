@@ -2037,11 +2037,12 @@ if(text==="🔢 Set Watch Losses"){
             initState(id);
 
             if (prevList && prevList.length >= 4) {
-                // Build B/S history
-                userStates[id].resultHistory = buildBSFromList(prevList, 15);
-                await send(msg.chat.id, "📋 Loaded history: " + (userStates[id].resultHistory || []).join(''));
-
-
+                // Build B/S history. Prediction logic reads resultSizeHistory;
+                // keep resultHistory as an alias for the status message/backward compatibility.
+                const loadedHistory = buildBSFromList(prevList, 15);
+                userStates[id].resultSizeHistory = loadedHistory;
+                userStates[id].resultHistory = loadedHistory;
+                await send(msg.chat.id, "📋 Loaded history: " + loadedHistory.join(''));
             }
 
             const cfg=autobetCfg[id];
