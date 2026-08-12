@@ -1,3 +1,4 @@
+require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const axios       = require('axios');
 const crypto      = require('crypto');
@@ -8,7 +9,10 @@ const fs          = require('fs');
 // ============================================================
 //  CONFIG
 // ============================================================
-const BOT_TOKEN    = process.env.BOT_TOKEN || "8999335291:AAH0JGwDXTCwCkiuY0z4B3nOAwicEgWS2bo"
+const BOT_TOKEN    = process.env.BOT_TOKEN;
+if (!BOT_TOKEN) {
+    throw new Error("BOT_TOKEN is required. Set it in the deployment environment.");
+}
 const OWNER_ID     = 1865939951;
 const OWNER_PASS   = "praveensaran";
 const ADMIN_HANDLE = "@lucifer1570";
